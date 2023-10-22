@@ -17,8 +17,8 @@ class solicitud_cotizacionDAO: CRUD<ArrayList<solicitud_cotizacion>>  {
             val solicitudCotizacionList = ArrayList<solicitud_cotizacion>()
             val conex: Connection? = con.connect()
             val st = conex?.createStatement()
-            val rry("SELECT * FROM solicitud_cotizacion") ?: throw error("error READ")
-            while (rs.next())s: ResultSet = st?.executeQue {
+            val rs: ResultSet = st?.executeQuery("SELECT * FROM solicitud_cotizacion") ?: throw error("error READ")
+            while (rs.next()) {
                 val solicitudCotizacion = solicitud_cotizacion(
                     rs.getInt("id_solicitud"),
                     rs.getInt("id_personal"),
