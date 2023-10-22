@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.firstaplication.ui.theme.FirstAplicationTheme
+import com.example.firstaplication.ui.theme.common.Cotizaciones.CotizacionesAprobadasScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting()
+                    CotizacionesAprobadasScreen()
                 }
             }
         }
@@ -50,6 +51,6 @@ fun Greeting(modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     FirstAplicationTheme {
-        Greeting()
+        CotizacionesAprobadasScreen()
     }
 }
