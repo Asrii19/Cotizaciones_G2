@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.theme.common.Cotizaciones
+package com.example.firstaplication.ui.common.Cotizaciones
 
 data class Cotizacion(
     val codigo: String,

@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.theme.common.Cotizaciones
+package com.example.firstaplication.ui.common.Cotizaciones
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

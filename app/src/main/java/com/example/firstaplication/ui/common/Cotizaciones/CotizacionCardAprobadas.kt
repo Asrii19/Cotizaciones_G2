@@ -1,6 +1,5 @@
-package com.example.firstaplication.ui.theme.common.Cotizaciones
+package com.example.firstaplication.ui.common.Cotizaciones
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
