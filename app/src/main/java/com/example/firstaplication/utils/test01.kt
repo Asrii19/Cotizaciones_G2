@@ -17,6 +17,8 @@ fun main(){
     transaction {
         response.forEach{e->
             println("La solicitud con id=${e.id} estado= ${e.estado.id} tiene como descripcion ${e.estado.descripcion}")
+            println("Tiene como personal a ${e.personal.persona.nombres} con id_personal ${e.personal.id}, con id_persona ${e.personal.persona.id}")
+            println("-----------")
         }
     }
 }
