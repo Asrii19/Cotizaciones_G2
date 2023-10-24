@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.common.Cotizaciones
+package com.example.firstaplication.ui.common.Solicitudes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CotizacionCardAprobada(cotizacion: Cotizacion) {
+fun CotizacionCardAprobada(solicitud: Solicitud) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,13 +28,13 @@ fun CotizacionCardAprobada(cotizacion: Cotizacion) {
             Column(
                 modifier = Modifier.weight(0.7f)
             ) {
-                Text(text = cotizacion.codigo, color = Color.Red)
+                Text(text = solicitud.codigo, color = Color.Red)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.nombre, color = Color.Black)
+                Text(text = solicitud.nombre, color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.zona, color = Color.Black)
+                Text(text = solicitud.zona, color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.fecha, color = Color.Red)
+                Text(text = solicitud.fecha, color = Color.Red)
             }
             Column(
                 modifier = Modifier

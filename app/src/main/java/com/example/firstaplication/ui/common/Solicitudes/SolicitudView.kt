@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.common.Cotizaciones
+package com.example.firstaplication.ui.common.Solicitudes
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import com.example.firstaplication.ui.theme.FirstAplicationTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CotizacionesAprobadasScreen() {
+fun CotizacionesScreen() {
     var isSearchVisible by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     Scaffold(
@@ -132,11 +132,11 @@ fun CotizacionesAprobadasScreen() {
                 ) {
                     if (selectedTabIndex == 0) {
                         items(cotizaciones) { cotizacion ->
-                            CotizacionCardPendiente(cotizacion = cotizacion)
+                            CotizacionCardPendiente(solicitud = cotizacion)
                         }
                     } else {
                         items(cotizaciones) { cotizacion ->
-                            CotizacionCardAprobada(cotizacion = cotizacion)
+                            CotizacionCardAprobada(solicitud = cotizacion)
                         }
                     }
                 }
@@ -159,12 +159,12 @@ fun CotizacionesAprobadasScreen() {
 
 
 @Composable
-fun generateCotizaciones(): List<Cotizacion> {
-    val cotizaciones = mutableListOf<Cotizacion>()
+fun generateCotizaciones(): List<Solicitud> {
+    val cotizaciones = mutableListOf<Solicitud>()
 
     for (i in 1..8) {
         cotizaciones.add(
-            Cotizacion(
+            Solicitud(
                 codigo = "COD-00$i",
                 nombre = "Apellido1 Apellido2 Nombre $i",
                 zona = "Los Claveles",
@@ -178,9 +178,9 @@ fun generateCotizaciones(): List<Cotizacion> {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun CotizacionesPreview() {
     FirstAplicationTheme {
-        CotizacionesAprobadasScreen()
+        CotizacionesScreen()
     }
 }
 

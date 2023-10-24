@@ -1,39 +1,38 @@
 package com.example.firstaplication.data.dao
 
-import com.example.firstaplication.data.model.solicitud_cotizacion
-import com.example.firstaplication.data.table.solicitud_cotizacionTable
+import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
+import com.example.firstaplication.data.model.SolicitudCotizacion
+import com.example.firstaplication.data.table.SolicitudCotizacionTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.time.LocalDate
+import javax.inject.Inject
 
-// VARIABLES GLOBALES
-val DFECHA_COTIZACION: LocalDate = LocalDate.of(2023, 12, 12)
-class solicitud_cotizacionDAO: CRUD<ArrayList<solicitud_cotizacion>> {
-    override fun create(item: ArrayList<solicitud_cotizacion>) {
+class solicitud_cotizacionDAO @Inject constructor() : CRUD<ArrayList<SolicitudCotizacion>> {
+    override fun create(item: ArrayList<SolicitudCotizacion>) {
         TODO("Not yet implemented")
     }
 
-    override fun read(): ArrayList<solicitud_cotizacion> { //primero
+    override fun read(): ArrayList<SolicitudCotizacion> { //primero
         return runBlocking {
             withContext(Dispatchers.IO) {
-                val result = ArrayList<solicitud_cotizacion>()
+                val result = ArrayList<SolicitudCotizacion>()
 
                 transaction {
-                    val query = solicitud_cotizacionTable.selectAll()
+                    val query = SolicitudCotizacionTable.selectAll()
                     query.forEach {
-                        val id_solicitud = it[solicitud_cotizacionTable.id_solicitud]
-                        val id_personal = it[solicitud_cotizacionTable.id_personal]
-                        val fecha_cotizacion = it[solicitud_cotizacionTable.fecha_cotizacion]
-                        val importe = it[solicitud_cotizacionTable.importe]
-                        val id_solicitud_cotizacion = it[solicitud_cotizacionTable.id_solicitud_cotizacion]
-                        val id_estado = it[solicitud_cotizacionTable.id_estado]
-                        result.add(solicitud_cotizacion(
+                        val id_solicitud = it[SolicitudCotizacionTable.id_solicitud]
+                        val id_personal = it[SolicitudCotizacionTable.id_personal]
+                        val fecha_cotizacion = it[SolicitudCotizacionTable.fecha_cotizacion]
+                        val importe = it[SolicitudCotizacionTable.importe]
+                        val id_solicitud_cotizacion = it[SolicitudCotizacionTable.id]
+                        val id_estado = it[SolicitudCotizacionTable.id_estado]
+                        result.add(SolicitudCotizacion(
                             id_solicitud,
                             id_personal,
-                            fecha_cotizacion ?: DFECHA_COTIZACION,
+                            fecha_cotizacion,
                             importe,
                             id_solicitud_cotizacion,
                             id_estado
@@ -44,12 +43,25 @@ class solicitud_cotizacionDAO: CRUD<ArrayList<solicitud_cotizacion>> {
             }
         }
     }
-
+    fun readPendientes(): ArrayList<SolicitudCotizacionEntity>{
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                val result = ArrayList<SolicitudCotizacionEntity>()
+                transaction {
+                    val query = SolicitudCotizacionEntity.all()
+                    query.forEach { e ->
+                        result.add(e)
+                    }
+                }
+                result
+            }
+        }
+    }
     override fun delete(id: Int) {
         TODO("Not yet implemented")
     }
 
-    override fun update(item: ArrayList<solicitud_cotizacion>) {
+    override fun update(item: ArrayList<SolicitudCotizacion>) {
         TODO("Not yet implemented")
     }
 

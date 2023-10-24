@@ -1,6 +1,6 @@
-package com.example.firstaplication.ui.common.Cotizaciones
+package com.example.firstaplication.ui.common.Solicitudes
 
-data class Cotizacion(
+data class Solicitud(
     val codigo: String,
     val nombre: String,
     val zona: String,

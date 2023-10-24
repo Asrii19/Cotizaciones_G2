@@ -1,8 +1,9 @@
 package com.example.firstaplication
 
+import com.example.firstaplication.data.config.db
+import com.example.firstaplication.data.dao.solicitud_cotizacionDAO
+import com.example.firstaplication.ui.common.Solicitudes.SolicitudViewModel
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +12,11 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun dataSolicitudes() {
+        db.init()
+        val scdao = solicitud_cotizacionDAO()
+        val vm = SolicitudViewModel(scdao)
+        val response = vm.generateSolicitudesPendientes()
+        println(response)
     }
 }
