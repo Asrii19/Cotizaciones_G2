@@ -25,8 +25,8 @@ class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotiza
     fun obtener_data(entity: SolicitudCotizacionEntity): solicitud_data {
         CoroutineScope(Dispatchers.IO).launch {
             transaction{
-                solicitud_data.id_solicitud = entity.solicitud.id.toString()
-                solicitud_data.name = entity.solicitud.solicitante.persona.apellido_paterno + entity.solicitud.solicitante.persona.apellido_materno + entity.solicitud.solicitante.persona.nombres
+                solicitud_data.id_solicitud = entity.solicitud.id.toString().padStart(6, '0')
+                solicitud_data.name = entity.solicitud.solicitante.persona.apellido_paterno + " " + entity.solicitud.solicitante.persona.apellido_materno + " " + entity.solicitud.solicitante.persona.nombres
                 solicitud_data.namep = entity.solicitud.predio.descripcion
                 solicitud_data.fecha = entity.solicitud.fecha_solicitud.toString()
             }

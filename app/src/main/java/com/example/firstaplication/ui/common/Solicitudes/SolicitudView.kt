@@ -14,20 +14,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.firstaplication.ui.theme.FirstAplicationTheme
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SolicitudesScreen(viewModel: SolicitudViewModel) {
+fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController) {
     var isSearchVisible by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -43,7 +50,11 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel) {
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = { /* Acción del menú */ }
+                        onClick = {
+                            scope.launch{
+                                scaffoldState.drawerState.open()
+                            }
+                        }
                     ) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = null, tint = Color.White)
                     }
@@ -130,11 +141,11 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel) {
                 ) {
                     if (selectedTabIndex == 0) {
                         items(solicitudes) { s ->
-                            CotizacionCardPendiente(solicitud = s,viewModel=viewModel)
+                            CotizacionCardPendiente(solicitud = s,viewModel=viewModel,navController)
                         }
                     } else {
                         items(solicitudes) { s ->
-                            CotizacionCardPendiente(solicitud = s,viewModel=viewModel)
+                            CotizacionCardAprobada(navController)
                         }
                     }
                 }
@@ -153,7 +164,28 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel) {
             )
         }
     )
+
+    @Composable
+    fun Drawer(){
+        val menu_items = listOf(
+            "Inicio",
+            "Nosotros",
+            "Blog",
+            "Contáctanos",
+            "Salir"
+        )
+        Column(){
+            menu_items.forEach{item ->
+                TextButton(onClick = {}){
+                    Text(item,
+                        modifier =Modifier.fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
 }
+
 
 
 
