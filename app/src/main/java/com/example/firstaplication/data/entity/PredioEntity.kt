@@ -8,7 +8,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 class PredioEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<PredioEntity>(PredioTable)
 
-    var id_tipo_predio by TipoPredioEntity referencedOn PredioTable.id_tipo_predio
+    var tipo_predio by TipoPredioEntity referencedOn PredioTable.id_tipo_predio
     var descripcion by PredioTable.descripcion
     var ruc by PredioTable.ruc
     var telefono by PredioTable.telefono

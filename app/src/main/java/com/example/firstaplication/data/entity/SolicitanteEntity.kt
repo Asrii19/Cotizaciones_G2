@@ -8,8 +8,8 @@ import org.jetbrains.exposed.dao.id.EntityID
 class SolicitanteEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<SolicitanteEntity>(SolicitanteTable)
 
-    var id_persona by PersonaEntity referencedOn SolicitanteTable.id_persona
-    var id_rol by RolEntity referencedOn SolicitanteTable.id_rol
+    var persona by PersonaEntity referencedOn SolicitanteTable.id_persona
+    var rol by RolEntity referencedOn SolicitanteTable.id_rol
     var telefono by SolicitanteTable.telefono
     var correo by SolicitanteTable.correo
 }

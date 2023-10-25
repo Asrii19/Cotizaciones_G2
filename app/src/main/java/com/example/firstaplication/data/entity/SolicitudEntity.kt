@@ -8,9 +8,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 class SolicitudEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<SolicitudEntity>(SolicitudTable)
 
-    var id_predio by PredioEntity referencedOn SolicitudTable.id_predio
-    var id_solicitante by SolicitanteEntity referencedOn SolicitudTable.id_solicitante
-    var id_servicio by ServicioEntity referencedOn SolicitudTable.id_servicio
+    var predio by PredioEntity referencedOn SolicitudTable.id_predio
+    var solicitante by SolicitanteEntity referencedOn SolicitudTable.id_solicitante
+    var servicio by ServicioEntity referencedOn SolicitudTable.id_servicio
     var area_predio by SolicitudTable.area_predio
     var num_casas by SolicitudTable.num_casas
     var cant_acomunes by SolicitudTable.cant_acomunes
@@ -19,4 +19,5 @@ class SolicitudEntity(id: EntityID<Int>) : IntEntity(id) {
     var cant_plimpieza by SolicitudTable.cant_plimpieza
     var cant_administracion by SolicitudTable.cant_administracion
     var cant_jardineria by SolicitudTable.cant_jardineria
+    var fecha_solicitud by SolicitudTable.fecha_solicitud
 }

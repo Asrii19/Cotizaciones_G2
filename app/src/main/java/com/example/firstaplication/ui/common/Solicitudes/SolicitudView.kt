@@ -20,14 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.firstaplication.ui.theme.FirstAplicationTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CotizacionesScreen() {
+fun SolicitudesScreen(viewModel: SolicitudViewModel) {
     var isSearchVisible by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     Scaffold(
@@ -102,7 +100,7 @@ fun CotizacionesScreen() {
             ) {
                 // Tabs
                 val tabs = listOf("Pendientes", "Aprobadas")
-                var selectedTabIndex by remember { mutableStateOf(0) }
+                var selectedTabIndex by remember { mutableIntStateOf(0) }
 
                 TabRow(
                     selectedTabIndex = selectedTabIndex,
@@ -122,8 +120,8 @@ fun CotizacionesScreen() {
                     }
                 }
 
-                // Lista de cotizaciones
-                val cotizaciones = generateCotizaciones() // Reemplaza con tus datos reales de la base de datos
+                // Lista de solicitudes
+                val solicitudes = viewModel.generateSolicitudesPendientes()
 
                 LazyColumn(
                     modifier = Modifier
@@ -131,12 +129,12 @@ fun CotizacionesScreen() {
                         .padding(16.dp)
                 ) {
                     if (selectedTabIndex == 0) {
-                        items(cotizaciones) { cotizacion ->
-                            CotizacionCardPendiente(solicitud = cotizacion)
+                        items(solicitudes) { s ->
+                            CotizacionCardPendiente(solicitud = s,viewModel=viewModel)
                         }
                     } else {
-                        items(cotizaciones) { cotizacion ->
-                            CotizacionCardAprobada(solicitud = cotizacion)
+                        items(solicitudes) { s ->
+                            CotizacionCardPendiente(solicitud = s,viewModel=viewModel)
                         }
                     }
                 }
@@ -155,33 +153,6 @@ fun CotizacionesScreen() {
             )
         }
     )
-}
-
-
-@Composable
-fun generateCotizaciones(): List<Solicitud> {
-    val cotizaciones = mutableListOf<Solicitud>()
-
-    for (i in 1..8) {
-        cotizaciones.add(
-            Solicitud(
-                codigo = "COD-00$i",
-                nombre = "Apellido1 Apellido2 Nombre $i",
-                zona = "Los Claveles",
-                fecha = "202$i-10-22"
-            )
-        )
-    }
-
-    return cotizaciones
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CotizacionesPreview() {
-    FirstAplicationTheme {
-        CotizacionesScreen()
-    }
 }
 
 

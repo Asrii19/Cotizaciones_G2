@@ -7,11 +7,11 @@ plugins {
 
 
 android {
-    namespace = "com.example.mvvmprueba"
+    namespace = "com.example.firstaplication"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.mvvmprueba"
+        applicationId = "com.example.firstaplication"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
