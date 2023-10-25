@@ -6,13 +6,18 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotisScreen
 
 @Composable
-fun CotizacionCardAprobada(solicitud: Solicitud) {
+fun CotizacionCardAprobada(navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,13 +33,13 @@ fun CotizacionCardAprobada(solicitud: Solicitud) {
             Column(
                 modifier = Modifier.weight(0.7f)
             ) {
-                Text(text = solicitud.codigo, color = Color.Red)
+                Text(text = "001", color = Color.Red)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = solicitud.nombre, color = Color.Black)
+                Text(text = "Vargas Gonzales Jorge", color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = solicitud.zona, color = Color.Black)
+                Text(text = "Los Claveles", color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = solicitud.fecha, color = Color.Red)
+                Text(text = "2023-10-25", color = Color.Red)
             }
             Column(
                 modifier = Modifier
@@ -42,17 +47,17 @@ fun CotizacionCardAprobada(solicitud: Solicitud) {
                     .fillMaxHeight(),
             ) {
                 Button(
-                    onClick = { /* Abre la opción de cotización */ },
+                    onClick = { navController.navigate("VisualizacionCotizarAprobada") },
                     modifier = Modifier
                         .widthIn(max = 100.dp)
                 ) {
                     IconButton(
-                        onClick = { /* Acción para descargar la cotización */ }
+                        onClick = { navController.navigate("VisualizacionCotizarAprobada") }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
                             contentDescription = "Ver Cotización",
-                            tint = Color.Black
+                            tint = Color.White
                         )
                     }
                 }
@@ -68,7 +73,7 @@ fun CotizacionCardAprobada(solicitud: Solicitud) {
                         Icon(
                             imageVector = Icons.Default.Send,
                             contentDescription = "Descargar Cotización",
-                            tint = Color.Black
+                            tint = Color.White
                         )
                     }
                 }

@@ -7,10 +7,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
+import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotisScreen
 
 @Composable
-fun CotizacionCardPendiente(solicitud: SolicitudCotizacionEntity,viewModel: SolicitudViewModel) {
+fun CotizacionCardPendiente(solicitud: SolicitudCotizacionEntity,viewModel: SolicitudViewModel,navController: NavController) {
 
     var data by remember { mutableStateOf(SolicitudViewModel.solicitud_data) }
 
@@ -49,7 +54,7 @@ fun CotizacionCardPendiente(solicitud: SolicitudCotizacionEntity,viewModel: Soli
                         .fillMaxHeight(),
                 ) {
                     Button(
-                        onClick = { /* Abre la opción de cotización */ },
+                        onClick = { navController.navigate("VisualizacionCotizarPendiente") },
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
