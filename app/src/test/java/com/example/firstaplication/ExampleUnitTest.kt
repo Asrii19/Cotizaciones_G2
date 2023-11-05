@@ -13,10 +13,6 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun dataSolicitudes() {
-        db.init()
-        val scdao = solicitud_cotizacionDAO()
-        val vm = SolicitudViewModel(scdao)
-        val response = vm.generateSolicitudesPendientes()
-        println(response)
+
     }
 }

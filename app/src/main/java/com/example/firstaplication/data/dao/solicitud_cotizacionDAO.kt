@@ -43,7 +43,7 @@ class solicitud_cotizacionDAO @Inject constructor() : CRUD<ArrayList<SolicitudCo
             }
         }
     }
-    fun readPendientes(): ArrayList<SolicitudCotizacionEntity>{
+    fun readAprobadas(): ArrayList<SolicitudCotizacionEntity>{
         return runBlocking {
             withContext(Dispatchers.IO) {
                 val result = ArrayList<SolicitudCotizacionEntity>()

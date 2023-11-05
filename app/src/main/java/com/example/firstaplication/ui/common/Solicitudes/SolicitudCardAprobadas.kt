@@ -14,10 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.firstaplication.data.model.sData
 import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotisScreen
 
 @Composable
-fun CotizacionCardAprobada(navController: NavController) {
+fun CotizacionCardAprobada(navController: NavController,data: sData) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,13 +34,13 @@ fun CotizacionCardAprobada(navController: NavController) {
             Column(
                 modifier = Modifier.weight(0.7f)
             ) {
-                Text(text = "001", color = Color.Red)
+                Text(text = data.id_solicitud, color = Color.Red)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Vargas Gonzales Jorge", color = Color.Black)
+                Text(text = data.name, color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Los Claveles", color = Color.Black)
+                Text(text = data.namep, color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "2023-10-25", color = Color.Red)
+                Text(text = data.fechaAprobacion, color = Color.Red)
             }
             Column(
                 modifier = Modifier

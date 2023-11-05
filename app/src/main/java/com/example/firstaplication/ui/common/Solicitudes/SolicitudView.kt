@@ -21,10 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.firstaplication.ui.theme.FirstAplicationTheme
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -35,6 +33,7 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController
     var searchText by remember { mutableStateOf("") }
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -131,22 +130,26 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController
                     }
                 }
 
-                // Lista de solicitudes
-                val solicitudes = viewModel.generateSolicitudesPendientes()
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    if (selectedTabIndex == 0) {
-                        items(solicitudes) { s ->
-                            CotizacionCardPendiente(solicitud = s,viewModel=viewModel,navController)
+                if (!viewModel.isLoading) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ) {
+                        if (selectedTabIndex == 0) {
+                            items(viewModel.dataPendiente) { data ->
+                                CotizacionCardPendiente(navController = navController, data = data)
+                            }
+                        } else {
+                            items(viewModel.dataAprobada) { data ->
+                                CotizacionCardAprobada(navController = navController, data = data)
+                            }
                         }
-                    } else {
-                        items(solicitudes) { s ->
-                            CotizacionCardAprobada(navController)
-                        }
+                    }
+                }else {
+                    CircularProgressIndicator(modifier = Modifier.fillMaxSize(), color = Color.Gray)
+                    LaunchedEffect(Unit) {
+                        viewModel.cargarData()
                     }
                 }
             }

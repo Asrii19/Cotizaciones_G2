@@ -1,36 +1,93 @@
 package com.example.firstaplication.ui.common.Solicitudes
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.example.firstaplication.data.dao.solicitud_cotizacionDAO
 import androidx.lifecycle.ViewModel
+import com.example.firstaplication.data.dao.solicitudDAO
 import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
+import com.example.firstaplication.data.entity.SolicitudEntity
+import com.example.firstaplication.data.model.sData
+import com.example.firstaplication.data.model.spData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.transactions.transaction
 import javax.inject.Inject
 
 @HiltViewModel
-class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotizacionDAO): ViewModel(){
-    object solicitud_data {
-        var id_solicitud:String = ""
-        var name:String = ""
-        var namep:String = ""
-        var fecha:String = ""
+class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotizacionDAO,
+                                             private val sDAO: solicitudDAO): ViewModel(){
+    var isLoading by mutableStateOf(true)
+    val dataPendiente = ArrayList<spData>()
+    val dataAprobada = ArrayList<sData>()
+    suspend fun generateSolicitudesAprobadas(): ArrayList<SolicitudCotizacionEntity> {
+        return withContext(Dispatchers.IO) {
+            scDAO.readAprobadas()
+        }
     }
-    fun generateSolicitudesPendientes(): ArrayList<SolicitudCotizacionEntity> {
-        val data = scDAO.readPendientes()
-        return data
+    suspend fun generateSolicitudesPendientes(): ArrayList<SolicitudEntity> {
+        return withContext(Dispatchers.IO) {
+            sDAO.readPendientes()
+        }
     }
-    fun obtener_data(entity: SolicitudCotizacionEntity): solicitud_data {
-        CoroutineScope(Dispatchers.IO).launch {
-            transaction{
-                solicitud_data.id_solicitud = entity.solicitud.id.toString().padStart(6, '0')
-                solicitud_data.name = entity.solicitud.solicitante.persona.apellido_paterno + " " + entity.solicitud.solicitante.persona.apellido_materno + " " + entity.solicitud.solicitante.persona.nombres
-                solicitud_data.namep = entity.solicitud.predio.descripcion
-                solicitud_data.fecha = entity.solicitud.fecha_solicitud.toString()
+    fun obtenerDataAprobada(entity: SolicitudCotizacionEntity): sData {
+        val sData = sData()
+        sData.id_solicitud = entity.solicitud.id.toString().padStart(6, '0')
+        sData.name = entity.solicitud.solicitante.persona.apellido_paterno + " " + entity.solicitud.solicitante.persona.apellido_materno + " " + entity.solicitud.solicitante.persona.nombres
+        sData.namep = entity.solicitud.predio.descripcion
+        sData.fechaAprobacion = entity.solicitud.fecha_solicitud.toString()
+        return sData
+    }
+    fun obtenerDataPendiente(entity: SolicitudEntity): spData {
+        val spData = spData()
+        spData.id_solicitud = entity.id.toString().padStart(6, '0')
+        spData.name = entity.solicitante.persona.apellido_paterno + " " + entity.solicitante.persona.apellido_materno + " " + entity.solicitante.persona.nombres
+        spData.namep = entity.predio.descripcion
+        spData.fechaSolicitud = entity.fecha_solicitud.toString()
+        return spData
+    }
+    suspend fun guardarDataAprobada() {
+        dataAprobada.clear()
+        val solicitudesAprobadas = generateSolicitudesAprobadas()
+        var result = withContext(Dispatchers.IO) {
+            transaction {
+                val listData = mutableListOf<sData>()
+                solicitudesAprobadas.forEach { sp ->
+                    listData.add(obtenerDataAprobada(sp))
+                }
+                listData
             }
         }
-        return solicitud_data
+
+        dataAprobada.addAll(result)
+    }
+    suspend fun guardarDataPendiente() {
+        dataPendiente.clear()
+        val solicitudesPendientes = generateSolicitudesPendientes()
+        var result = withContext(Dispatchers.IO) {
+            transaction {
+                val listData = mutableListOf<spData>()
+                solicitudesPendientes.forEach { sp ->
+                    listData.add(obtenerDataPendiente(sp))
+                }
+                listData
+            }
+        }
+
+        dataPendiente.addAll(result)
+    }
+
+    suspend fun cargarData(){
+        val jobPendiente = CoroutineScope(Dispatchers.IO).launch { guardarDataPendiente() }
+        val jobAprobada = CoroutineScope(Dispatchers.IO).launch { guardarDataAprobada() }
+
+        // Esperar a que ambas funciones suspendidas finalicen
+        jobPendiente.join()
+        jobAprobada.join()
+        isLoading = false
     }
 }

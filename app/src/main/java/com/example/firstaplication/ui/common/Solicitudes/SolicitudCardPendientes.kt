@@ -8,69 +8,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
-import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotisScreen
+import com.example.firstaplication.data.model.spData
 
 @Composable
-fun CotizacionCardPendiente(solicitud: SolicitudCotizacionEntity,viewModel: SolicitudViewModel,navController: NavController) {
+fun CotizacionCardPendiente(navController: NavController,data: spData) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
 
-    var data by remember { mutableStateOf(SolicitudViewModel.solicitud_data) }
-
-    LaunchedEffect(Unit) {
-        data = viewModel.obtener_data(solicitud)
-    }
-
-    if (data != null) {
-        Card(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+                modifier = Modifier.weight(0.6f)
             ) {
-                Column(
-                    modifier = Modifier.weight(0.6f)
-                ) {
-                    Text(text = data.id_solicitud, color = Color.Red)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = data.name, color = Color.Black)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = data.namep, color = Color.Black)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = data.fecha, color = Color.Red)
-                }
-                Column(
+                Text(text = data.id_solicitud, color = Color.Red)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = data.name, color = Color.Black)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = data.namep, color = Color.Black)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = data.fechaSolicitud, color = Color.Red)
+            }
+            Column(
+                modifier = Modifier
+                    .weight(0.4f)
+                    .fillMaxHeight(),
+            ) {
+                Button(
+                    onClick = { navController.navigate("VisualizacionCotizarPendiente") },
                     modifier = Modifier
-                        .weight(0.4f)
-                        .fillMaxHeight(),
+                        .fillMaxWidth()
                 ) {
-                    Button(
-                        onClick = { navController.navigate("VisualizacionCotizarPendiente") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Text(text = "Cotizar")
-                    }
+                    Text(text = "Cotizar")
                 }
             }
         }
-    } else {
-        // Muestra un indicador de carga o un mensaje de espera
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
     }
-
 }
