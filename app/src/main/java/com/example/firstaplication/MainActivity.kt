@@ -25,7 +25,7 @@ import org.apache.log4j.varia.NullAppender
 
 private const val TAG = "MainActivity"
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() { //clase main
     private val solicitudViewModel: SolicitudViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
