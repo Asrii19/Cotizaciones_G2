@@ -94,8 +94,8 @@ fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosPersonal1(data = data)
+                        item{
+                            CotiCardVerDatosPersonal1(data = viewModel.dataDetalle)
                         }
                         item{
                             Text(
@@ -105,8 +105,8 @@ fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosPredio2(data = data)
+                        item{
+                            CotiCardVerDatosPredio2(data = viewModel.dataDetalle)
                         }
                         item{
                             Text(
@@ -116,8 +116,8 @@ fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosServicios3(data = data)
+                        item{
+                            CotiCardVerDatosServicios3(data = viewModel.dataDetalle)
                         }
                         item{
                             Text(
@@ -127,8 +127,8 @@ fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosCotizacion4(data = data)
+                        item{
+                            CotiCardVerDatosCotizacion4(data = viewModel.dataDetalle)
                         }
                     }
                 }else {

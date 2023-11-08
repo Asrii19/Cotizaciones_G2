@@ -38,8 +38,10 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .fillMaxWidth().wrapContentSize(Alignment.Center)
-                            .fillMaxHeight().wrapContentSize(Alignment.Center)
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.Center)
+                            .fillMaxHeight()
+                            .wrapContentSize(Alignment.Center)
                     )
                 },
             )
@@ -70,8 +72,8 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosPersonal1(data = data)
+                        item{
+                            CotiCardVerDatosPersonal1(data = viewModel.dataDetalle)
                         }
                         item{
                             Text(
@@ -81,8 +83,8 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosPredio2(data = data)
+                        item{
+                            CotiCardVerDatosPredio2(data = viewModel.dataDetalle)
                         }
                         item{
                             Text(
@@ -92,8 +94,8 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosServicios3(data = data)
+                        item{
+                            CotiCardVerDatosServicios3(data = viewModel.dataDetalle)
                         }
                         item{
                             Text(
@@ -103,8 +105,8 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
                                 textAlign = TextAlign.Center,
                             )
                         }
-                        items(viewModel.dataDetalle) { data ->
-                            CotiCardVerDatosCotizacion4(data = data)
+                        item{
+                            CotiCardVerDatosCotizacion4(data = viewModel.dataDetalle)
                         }
                     }
                 }else {
@@ -123,24 +125,30 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
         //INFERIOR
         bottomBar = {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     Button(
                         onClick = {
                             navController.navigate("VisualizaracionSolicitudCotizada")
+                            viewModel.isLoading = true
                         },
-                        modifier = Modifier.weight(0.5f).padding(end=10.dp)
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .padding(end = 10.dp)
                     ) {
                         Text(text = "REGISTRAR")
                     }
                     Button(
                         onClick = {
-
                             navController.navigate("pantalla1")
                             viewModel.isLoading = true
                                   },
-                        modifier = Modifier.weight(0.5f).padding(end=10.dp)
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .padding(end = 10.dp)
                     ) {
                         Text(text = "CANCELAR")
                     }

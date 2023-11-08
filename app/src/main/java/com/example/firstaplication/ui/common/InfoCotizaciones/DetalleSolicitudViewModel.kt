@@ -23,7 +23,7 @@ import javax.inject.Inject
 class DetalleSolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotizacionDAO,
                                                     private val sDAO: solicitudDAO): ViewModel(){
     var isLoading by mutableStateOf(true)
-    val dataDetalle = ArrayList<sDataDetalle>()
+    var dataDetalle = sDataDetalle()
 
     suspend fun generateSolicitudesAprobadas(id: String): ArrayList<SolicitudCotizacionEntity> {
         return withContext(Dispatchers.IO) {
@@ -79,34 +79,31 @@ class DetalleSolicitudViewModel @Inject constructor(private val scDAO: solicitud
     }
 
     suspend fun guardarDataCotizada(id: String) {
-        dataDetalle.clear()
         val solicitudesAprobadas = generateSolicitudesAprobadas(id)
         var result = withContext(Dispatchers.IO) {
             transaction {
-                val listData = mutableListOf<sDataDetalle>()
-                listData.add(obtenerDataAprobada(solicitudesAprobadas.get(0)))
-                listData
+                var Data = sDataDetalle()
+                Data = obtenerDataAprobada(solicitudesAprobadas.get(0))
+                Data
             }
         }
-        dataDetalle.addAll(result)
+        dataDetalle = result
     }
     suspend fun guardarDataPendiente(id: String) {
-        dataDetalle.clear()
         val solicitudesPendientes = generateSolicitudesPendientes(id)
         var result = withContext(Dispatchers.IO) {
             transaction {
-                val listData = mutableListOf<sDataDetalle>()
-                listData.add(obtenerDataPendiente(solicitudesPendientes.get(0)))
-                listData
+                var Data = sDataDetalle()
+                Data = obtenerDataPendiente(solicitudesPendientes.get(0))
+                Data
             }
         }
-        dataDetalle.addAll(result)
+        dataDetalle = result
     }
 
     suspend fun cargarDataPendiente(id: String){
         val jobPendiente = CoroutineScope(Dispatchers.IO).launch { guardarDataPendiente(id) }
 
-        // Esperar a que ambas funciones suspendidas finalicen
         jobPendiente.join()
         isLoading = false
     }
@@ -114,7 +111,6 @@ class DetalleSolicitudViewModel @Inject constructor(private val scDAO: solicitud
     suspend fun cargarDataCotizada(id: String){
         val jobAprobada = CoroutineScope(Dispatchers.IO).launch { guardarDataCotizada(id) }
 
-        // Esperar a que ambas funciones suspendidas finalicen
         jobAprobada.join()
         isLoading = false
     }
