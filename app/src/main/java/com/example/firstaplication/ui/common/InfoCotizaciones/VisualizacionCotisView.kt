@@ -25,12 +25,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.firstaplication.ui.common.InfoCotizaciones.DetalleSolicitudViewModel
 import com.example.firstaplication.ui.theme.FirstAplicationTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisualizacionCotisScreen(navController: NavController) {
+fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController: NavController, idSolicitud: String?) {
     // Data de usuario
     val cotizacionObjeto = generateCotizaciones2() // Reemplaza con tus datos reales de la base de datos
 
@@ -41,7 +42,7 @@ fun VisualizacionCotisScreen(navController: NavController) {
                 colors = TopAppBarDefaults.mediumTopAppBarColors(Color(0xFF0C0C22)),
                 title = {
                     Text(
-                        text = cotizacionObjeto[0].codigo,
+                        text = idSolicitud.toString(),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
@@ -56,6 +57,7 @@ fun VisualizacionCotisScreen(navController: NavController) {
                     IconButton(
                         onClick = {
                             navController.navigate("pantalla1")
+                            viewModel.isLoading = true
                         },
                         modifier = Modifier.size(50.dp).fillMaxWidth().wrapContentSize(Alignment.Center)
                             .fillMaxHeight().wrapContentSize(Alignment.Center)
@@ -78,55 +80,63 @@ fun VisualizacionCotisScreen(navController: NavController) {
                     .padding(innerPadding),
                 verticalArrangement = Arrangement.spacedBy(5.dp),
             ) {
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    item{
-                        Text(
-                            text = "   Información PERSONAL",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                        )
+                if (!viewModel.isLoading) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    ) {
+                        item{
+                            Text(
+                                text = "   Información PERSONAL",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(viewModel.dataDetalle) { data ->
+                            CotiCardVerDatosPersonal1(data = data)
+                        }
+                        item{
+                            Text(
+                                text = "   Información PREDIO",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(viewModel.dataDetalle) { data ->
+                            CotiCardVerDatosPredio2(data = data)
+                        }
+                        item{
+                            Text(
+                                text = "   Información SERVICIOS",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(viewModel.dataDetalle) { data ->
+                            CotiCardVerDatosServicios3(data = data)
+                        }
+                        item{
+                            Text(
+                                text = "   Información COTIZACIÓN",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                            )
+                        }
+                        items(viewModel.dataDetalle) { data ->
+                            CotiCardVerDatosCotizacion4(data = data)
+                        }
                     }
-                    items(cotizacionObjeto) { cotizacion ->
-                        CotiCardVerDatosPersonal1(cotizacion = cotizacion)
-                    }
-                    item{
-                        Text(
-                            text = "   Información PREDIO",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    items(cotizacionObjeto) { cotizacion ->
-                        CotiCardVerDatosPredio2(cotizacion = cotizacion)
-                    }
-                    item{
-                        Text(
-                            text = "   Información SERVICIOS",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    items(cotizacionObjeto) { cotizacion ->
-                        CotiCardVerDatosServicios3(cotizacion = cotizacion)
-                    }
-                    item{
-                        Text(
-                            text = "   Información COTIZACIÓN",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    items(cotizacionObjeto) { cotizacion ->
-                        CotiCardVerDatosCotizacion4(cotizacion = cotizacion)
+                }else {
+                    CircularProgressIndicator(modifier = Modifier.fillMaxSize(), color = Color.Gray)
+                    LaunchedEffect(Unit) {
+                        if (idSolicitud != null) {
+                            viewModel.cargarDataCotizada(idSolicitud)
+                        }
                     }
                 }
 
@@ -155,7 +165,6 @@ fun generateCotizaciones2(): List<Cotizacion> {
     cotizaciones.add(
         Cotizacion(_codigo="0000234",_nombre="patrick anastacio",_zona="Lima",_fecha="2023-10-23")
     )
-
     return cotizaciones
 }
 

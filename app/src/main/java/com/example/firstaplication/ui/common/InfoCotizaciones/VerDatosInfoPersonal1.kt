@@ -15,9 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.firstaplication.data.model.sDataDetalle
 
 @Composable
-fun CotiCardVerDatosPersonal1(cotizacion: Cotizacion) {
+fun CotiCardVerDatosPersonal1(data: sDataDetalle) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,13 +46,13 @@ fun CotiCardVerDatosPersonal1(cotizacion: Cotizacion) {
             Column(
                 modifier = Modifier.weight(0.6f)
             ) {
-                Text(text = cotizacion.nombre, color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.nombre, color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.numDoc, color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.nro_documento, color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.rol, color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.rol, color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.correo, color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.correo, color = Color.Blue, modifier = Modifier.align(Alignment.End))
             }
         }
     }

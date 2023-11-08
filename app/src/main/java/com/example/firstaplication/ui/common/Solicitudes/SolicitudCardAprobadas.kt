@@ -48,12 +48,12 @@ fun CotizacionCardAprobada(navController: NavController,data: sData) {
                     .fillMaxHeight(),
             ) {
                 Button(
-                    onClick = { navController.navigate("VisualizacionCotizarAprobada") },
+                    onClick = { },
                     modifier = Modifier
                         .widthIn(max = 100.dp)
                 ) {
                     IconButton(
-                        onClick = { navController.navigate("VisualizacionCotizarAprobada") }
+                        onClick = { navController.navigate("VisualizacionCotizarAprobada/${data.id_solicitud}") }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,

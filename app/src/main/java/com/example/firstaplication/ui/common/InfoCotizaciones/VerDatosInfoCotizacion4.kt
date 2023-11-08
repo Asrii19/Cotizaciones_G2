@@ -13,9 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.firstaplication.data.model.sDataDetalle
 
 @Composable
-fun CotiCardVerDatosCotizacion4(cotizacion: Cotizacion) {
+fun CotiCardVerDatosCotizacion4(data: sDataDetalle) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,15 +45,16 @@ fun CotiCardVerDatosCotizacion4(cotizacion: Cotizacion) {
             Column(
                 modifier = Modifier.weight(0.3f)
             ) {
-                Text(text = cotizacion.importPorAdmin.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = "S/. " + (data.cant_administracion * data.precio_administracion).toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.CotiPersonalLimpieza.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = "S/. " + (data.cant_limpieza * data.precio_limpieza).toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.CotiJardinero.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = "S/. " + (data.cant_jardineria * data.precio_jardineria).toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.CotiVigilantes.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = "S/. " + (data.cant_vigilantes * data.precio_vigilante).toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = (cotizacion.importPorAdmin+cotizacion.CotiPersonalLimpieza+cotizacion.CotiJardinero+cotizacion.CotiVigilantes).toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                var total_importe = (data.cant_administracion * data.precio_administracion)+(data.cant_limpieza * data.precio_limpieza)+(data.cant_jardineria * data.precio_jardineria)+(data.cant_vigilantes * data.precio_vigilante)
+                Text(text = "S/. " + total_importe.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
             }
         }
     }
