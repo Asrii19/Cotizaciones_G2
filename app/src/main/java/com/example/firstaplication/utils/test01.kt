@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.log4j.BasicConfigurator
 import org.apache.log4j.varia.NullAppender
+import org.jetbrains.exposed.sql.transactions.transaction
 
 
 fun main(){
@@ -21,29 +22,8 @@ fun main(){
     val scdao = solicitud_cotizacionDAO()
     val sdao = solicitudDAO()
     val vm = SolicitudViewModel(scdao,sdao)
-    val deferred = CompletableDeferred<Unit>()
-    var spDataPendiente = ArrayList<spData>()
-
-    GlobalScope.launch(Dispatchers.IO) {
-        vm.guardarDataPendiente()
-        deferred.complete(Unit)
-    }
-
-    runBlocking {
-        deferred.await() // Espera a que la coroutine termine
-        println("La coroutine ha terminado")
-    }
-
-    //val response = vm.generateSolicitudesPendientes()
-    /*transaction {
-        response.forEach{e->
-            println("La solicitud con id=${e.id}")
-            //println("La solicitud con id=${e.id}, id_solicitud=${e.solicitud.id} estado= ${e.estado.id} tiene como descripcion ${e.estado.descripcion}")
-            //println("Tiene como personal a ${e.personal.persona.nombres} con id_personal ${e.personal.id}, con id_persona ${e.personal.persona.id}")
-            println("-----------")
-        }
-    }*/
-    spDataPendiente.forEach{data->
-        println(data.id_solicitud)
+    val response = sdao.readPendienteDetalle("000050")
+    transaction{
+        print(response.get(0).solicitante.persona.apellido_paterno)
     }
 }

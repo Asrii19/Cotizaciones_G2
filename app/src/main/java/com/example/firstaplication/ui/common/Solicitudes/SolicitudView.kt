@@ -109,7 +109,7 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController
                 verticalArrangement = Arrangement.spacedBy(5.dp),
             ) {
                 // Tabs
-                val tabs = listOf("Pendientes", "Aprobadas")
+                val tabs = listOf("Pendientes", "Cotizadas")
                 var selectedTabIndex by remember { mutableIntStateOf(0) }
 
                 TabRow(

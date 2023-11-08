@@ -77,6 +77,23 @@ class solicitudDAO @Inject constructor() : CRUD<ArrayList<Solicitud>> {
             }
         }
     }
+
+    fun readPendienteDetalle(id: String): ArrayList<SolicitudEntity>{
+        val id2 = id.toInt()
+
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                val result = ArrayList<SolicitudEntity>()
+                transaction {
+                    val query = SolicitudEntity.findById(id2)
+                    if (query != null) {
+                        result.add(query)
+                    }
+                }
+                result
+            }
+        }
+    }
     override fun delete(id: Int) {
         TODO("Not yet implemented")
     }

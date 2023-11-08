@@ -1,6 +1,7 @@
 package com.example.firstaplication.data.dao
 
 import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
+import com.example.firstaplication.data.entity.SolicitudEntity
 import com.example.firstaplication.data.model.SolicitudCotizacion
 import com.example.firstaplication.data.table.SolicitudCotizacionTable
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,23 @@ class solicitud_cotizacionDAO @Inject constructor() : CRUD<ArrayList<SolicitudCo
                             id_solicitud_cotizacion,
                             id_estado
                         ))
+                    }
+                }
+                result
+            }
+        }
+    }
+
+    fun readAprobadaDetalle(id: String): ArrayList<SolicitudCotizacionEntity>{
+        val id2 = id.toLong()
+
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                val result = ArrayList<SolicitudCotizacionEntity>()
+                transaction {
+                    val query = SolicitudCotizacionEntity.findById(id2)
+                    if (query != null) {
+                        result.add(query)
                     }
                 }
                 result

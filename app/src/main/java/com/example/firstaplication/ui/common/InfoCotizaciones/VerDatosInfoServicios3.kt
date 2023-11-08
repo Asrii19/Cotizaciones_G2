@@ -14,9 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.firstaplication.data.model.sDataDetalle
 
 @Composable
-fun CotiCardVerDatosServicios3(cotizacion: Cotizacion) {
+fun CotiCardVerDatosServicios3(data: sDataDetalle) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,15 +46,15 @@ fun CotiCardVerDatosServicios3(cotizacion: Cotizacion) {
             Column(
                 modifier = Modifier.weight(0.2f)
             ) {
-                Text(text = cotizacion.cantAdmin.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.cant_administracion.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.cantPersonalLimpieza.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.cant_limpieza.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.cantJardineros.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.cant_jardineria.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.cantVigilantes.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.cant_vigilantes.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = cotizacion.tipoServ, color = Color.Blue)
+                Text(text = data.tipo_servicio, color = Color.Blue)
             }
         }
     }
