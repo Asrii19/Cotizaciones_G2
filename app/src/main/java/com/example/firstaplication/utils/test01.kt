@@ -5,7 +5,7 @@ import com.example.firstaplication.data.config.db
 import com.example.firstaplication.data.dao.solicitudDAO
 import com.example.firstaplication.data.dao.solicitud_cotizacionDAO
 import com.example.firstaplication.data.model.spData
-import com.example.firstaplication.ui.common.Solicitudes.SolicitudViewModel
+import com.example.firstaplication.ui.views.Solicitudes.SolicitudViewModel
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

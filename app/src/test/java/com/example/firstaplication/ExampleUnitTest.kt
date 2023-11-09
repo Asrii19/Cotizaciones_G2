@@ -1,8 +1,5 @@
 package com.example.firstaplication
 
-import com.example.firstaplication.data.config.db
-import com.example.firstaplication.data.dao.solicitud_cotizacionDAO
-import com.example.firstaplication.ui.common.Solicitudes.SolicitudViewModel
 import org.junit.Test
 
 /**

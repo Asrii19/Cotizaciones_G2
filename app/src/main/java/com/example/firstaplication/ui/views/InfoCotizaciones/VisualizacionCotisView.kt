@@ -4,36 +4,28 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.firstaplication.ui.common.InfoCotizaciones.DetalleSolicitudViewModel
-import com.example.firstaplication.ui.theme.FirstAplicationTheme
+import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionViewModel
+import com.example.firstaplication.ui.views.infoSolicitudes.DetalleSolicitudViewModel
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosCotizacion4
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosPersonal1
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosPredio2
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosServicios3
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController: NavController, idSolicitud: String?) {
-    // Data de usuario
-    val cotizacionObjeto = generateCotizaciones2() // Reemplaza con tus datos reales de la base de datos
+fun VisualizacionCotisScreen(viewModel: DetalleCotizacionViewModel, navController: NavController, idSolicitud: String?) {
 
     Scaffold(
         topBar = {
@@ -157,17 +149,6 @@ fun VisualizacionCotisScreen(viewModel: DetalleSolicitudViewModel, navController
         }
     )
 }
-
-
-@Composable
-fun generateCotizaciones2(): List<Cotizacion> {
-    val cotizaciones = mutableListOf<Cotizacion>()
-    cotizaciones.add(
-        Cotizacion(_codigo="0000234",_nombre="patrick anastacio",_zona="Lima",_fecha="2023-10-23")
-    )
-    return cotizaciones
-}
-
 
 
 

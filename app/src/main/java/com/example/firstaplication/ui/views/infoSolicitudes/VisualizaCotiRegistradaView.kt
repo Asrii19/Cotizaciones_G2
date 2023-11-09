@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,16 +13,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.firstaplication.ui.common.InfoCotizaciones.DetalleSolicitudViewModel
-import com.example.firstaplication.ui.common.Solicitudes.CotizacionCardAprobada
-import com.example.firstaplication.ui.common.Solicitudes.CotizacionCardPendiente
+import com.example.firstaplication.ui.views.infoSolicitudes.DetalleSolicitudViewModel
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosCotizacion4
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosPersonal1
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosPredio2
+import com.example.firstaplication.ui.views.common.CotiCardVerDatosServicios3
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navController: NavController, idSolicitud: String?) {
-    // Data de usuario
-    val cotizacionObjeto = generateCotizaciones3() // Reemplaza con tus datos reales de la base de datos
 
     Scaffold(
         topBar = {
@@ -156,17 +154,6 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
 
         }
     )
-}
-
-@SuppressLint("SuspiciousIndentation")
-@Composable
-fun generateCotizaciones3(): List<Cotizacion> {
-    val cotizaciones = mutableListOf<Cotizacion>()
-        cotizaciones.add(
-            Cotizacion(_codigo="0000234",_nombre="patrick anastacio",_zona="Lima",_fecha="2023-10-23")
-        )
-
-    return cotizaciones
 }
 
 

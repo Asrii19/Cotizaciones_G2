@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.common.Solicitudes
+package com.example.firstaplication.ui.views.Solicitudes
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +36,7 @@ class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotiza
     }
     fun obtenerDataAprobada(entity: SolicitudCotizacionEntity): sData {
         val sData = sData()
-        sData.id_solicitud = entity.solicitud.id.toString().padStart(6, '0')
+        sData.id_solicitud = entity.id.toString().padStart(6, '0')
         sData.name = entity.solicitud.solicitante.persona.apellido_paterno + " " + entity.solicitud.solicitante.persona.apellido_materno + " " + entity.solicitud.solicitante.persona.nombres
         sData.namep = entity.solicitud.predio.descripcion
         sData.fechaAprobacion = entity.solicitud.fecha_solicitud.toString()

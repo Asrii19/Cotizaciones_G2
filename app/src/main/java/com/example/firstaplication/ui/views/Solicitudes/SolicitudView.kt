@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.common.Solicitudes
+package com.example.firstaplication.ui.views.Solicitudes
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

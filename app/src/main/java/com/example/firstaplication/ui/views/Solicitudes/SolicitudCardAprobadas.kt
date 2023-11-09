@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.common.Solicitudes
+package com.example.firstaplication.ui.views.Solicitudes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -6,16 +6,12 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.firstaplication.data.model.sData
-import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotisScreen
 
 @Composable
 fun CotizacionCardAprobada(navController: NavController,data: sData) {

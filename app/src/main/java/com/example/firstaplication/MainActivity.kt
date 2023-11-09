@@ -10,15 +10,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.firstaplication.data.config.db
-import com.example.firstaplication.ui.common.Solicitudes.SolicitudViewModel
-import com.example.firstaplication.ui.common.Solicitudes.SolicitudesScreen
+import com.example.firstaplication.ui.views.Solicitudes.SolicitudViewModel
+import com.example.firstaplication.ui.views.Solicitudes.SolicitudesScreen
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.firstaplication.ui.common.InfoCotizaciones.DetalleSolicitudViewModel
-import com.example.firstaplication.ui.common.Solicitudes.VisualizacionSolicitudCotizadaScreen
+import com.example.firstaplication.ui.views.infoSolicitudes.DetalleSolicitudViewModel
+import com.example.firstaplication.ui.views.Solicitudes.VisualizacionSolicitudCotizadaScreen
 import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotiRegistradaScreen
 import com.example.firstaplication.ui.theme.common.InfoCotizaciones.VisualizacionCotisScreen
+import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.apache.log4j.BasicConfigurator
 import org.apache.log4j.varia.NullAppender
@@ -28,6 +29,7 @@ private const val TAG = "MainActivity"
 class MainActivity : ComponentActivity() { //clase main
     private val solicitudViewModel: SolicitudViewModel by viewModels()
     private val detalleSolicitudViewModel: DetalleSolicitudViewModel by viewModels()
+    private val detalleCotizacionViewModel: DetalleCotizacionViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate Called")
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() { //clase main
                 }
                 composable("VisualizacionCotizarAprobada/{idSolicitud}") { backStackEntry ->
                     val idSolicitud = backStackEntry.arguments?.getString("idSolicitud")
-                    VisualizacionCotisScreen(detalleSolicitudViewModel,navController,idSolicitud)
+                    VisualizacionCotisScreen(detalleCotizacionViewModel,navController,idSolicitud)
                 }
                 composable("VisualizaracionSolicitudCotizada"){
                     VisualizacionSolicitudCotizadaScreen(navController)

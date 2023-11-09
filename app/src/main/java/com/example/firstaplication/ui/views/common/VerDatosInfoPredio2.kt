@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.theme.common.InfoCotizaciones
+package com.example.firstaplication.ui.views.common
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.firstaplication.data.model.sDataDetalle
 
 @Composable
-fun CotiCardVerDatosServicios3(data: sDataDetalle) {
+fun CotiCardVerDatosPredio2(data: sDataDetalle) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,33 +27,29 @@ fun CotiCardVerDatosServicios3(data: sDataDetalle) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(0.8f)
+                modifier = Modifier.weight(0.6f)
             ) {
-                Text(text = "Cant. de administración: ", color = Color.Black)
+                Text(text = "Nombre: ", color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Cant. personal de limpieza: ", color = Color.Black)
+                Text(text = "Dirección: ", color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Cant. jardineros: ", color = Color.Black)
+                Text(text = "Tipo de predio: ", color = Color.Black)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Cant. vigilantes: ", color = Color.Black)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Tipo de servicio: ", color = Color.Black)
+                Text(text = "RUC: ", color = Color.Black)
             }
             Column(
-                modifier = Modifier.weight(0.2f)
+                modifier = Modifier.weight(0.6f)
             ) {
-                Text(text = data.cant_administracion.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.nombre_predio, color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = data.cant_limpieza.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.direccion_predio, color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = data.cant_jardineria.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
+                Text(text = data.tipo_predio, color = Color.Blue, modifier = Modifier.align(Alignment.End))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = data.cant_vigilantes.toString(), color = Color.Blue, modifier = Modifier.align(Alignment.End))
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = data.tipo_servicio, color = Color.Blue)
+                Text(text = data.ruc_predio, color = Color.Blue, modifier = Modifier.align(Alignment.End))
             }
         }
     }

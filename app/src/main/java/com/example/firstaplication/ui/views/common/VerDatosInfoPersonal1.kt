@@ -1,4 +1,4 @@
-package com.example.firstaplication.ui.theme.common.InfoCotizaciones
+package com.example.firstaplication.ui.views.common
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

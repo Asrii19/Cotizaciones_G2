@@ -1,20 +1,12 @@
-package com.example.firstaplication.ui.common.Solicitudes
+package com.example.firstaplication.ui.views.Solicitudes
 
-import android.content.ContentResolver.ANY_CURSOR_ITEM_TYPE
-import android.content.ContentResolver.CURSOR_DIR_BASE_TYPE
-import android.content.Context
-import android.provider.Settings.Global.putInt
-import android.provider.Settings.Global.putString
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextMotion.Companion.Static
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavController
 import com.example.firstaplication.data.model.spData
 
