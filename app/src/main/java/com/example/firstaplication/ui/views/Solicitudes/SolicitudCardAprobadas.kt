@@ -1,5 +1,8 @@
 package com.example.firstaplication.ui.views.Solicitudes
 
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -10,11 +13,49 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
+import com.example.firstaplication.MainActivity
 import com.example.firstaplication.data.model.sData
+import com.example.firstaplication.data.model.sDataDetalle
+import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionViewModel
+import java.io.File
+import com.example.firstaplication.ui.views.infoSolicitudes.generatePDF as generatePDF
+
+private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+val mainActivity = MainActivity.obtenerInstancia()
+private fun foregroundPermissionApproved(context: Context): Boolean {
+    val writePermissionFlag = PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+        context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+    val readPermissionFlag = PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+        context, android.Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
+    return writePermissionFlag && readPermissionFlag
+}
+
+private fun requestForegroundPermission(context: Context) {
+    val provideRationale = foregroundPermissionApproved(context = context)
+    if (provideRationale) {
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE),
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+        )
+    } else {
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE),
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+        )
+    }
+}
 
 @Composable
-fun CotizacionCardAprobada(navController: NavController,data: sData) {
+fun CotizacionCardAprobada(navController: NavController, data: sData, context: Context, viewModelCotizado: DetalleCotizacionViewModel) {
+    requestForegroundPermission(context)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,7 +106,11 @@ fun CotizacionCardAprobada(navController: NavController,data: sData) {
                         .widthIn(max = 100.dp)
                 ) {
                     IconButton(
-                        onClick = { /* Acción para descargar la cotización */ }
+                        onClick = {
+                            if (mainActivity != null) {
+                                generatePDF(context, mainActivity.getDirectory(), data.id_solicitud, viewModelCotizado)
+                            }
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Send,
@@ -78,3 +123,4 @@ fun CotizacionCardAprobada(navController: NavController,data: sData) {
         }
     }
 }
+

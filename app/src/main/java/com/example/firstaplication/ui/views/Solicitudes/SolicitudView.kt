@@ -1,6 +1,9 @@
 package com.example.firstaplication.ui.views.Solicitudes
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,13 +25,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
+import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionViewModel
 import kotlinx.coroutines.launch
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController) {
+fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController, context: Context, viewModelCotizado: DetalleCotizacionViewModel) {
     var isSearchVisible by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
     val scaffoldState = rememberScaffoldState()
@@ -142,7 +148,7 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController
                             }
                         } else {
                             items(viewModel.dataAprobada) { data ->
-                                CotizacionCardAprobada(navController = navController, data = data)
+                                CotizacionCardAprobada(navController = navController, data = data, context = context, viewModelCotizado = viewModelCotizado)
                             }
                         }
                     }
