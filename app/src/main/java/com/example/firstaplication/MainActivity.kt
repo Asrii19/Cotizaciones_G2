@@ -1,5 +1,8 @@
 package com.example.firstaplication
 
+import android.content.Context
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -9,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import com.example.firstaplication.data.config.db
 import com.example.firstaplication.ui.views.Solicitudes.SolicitudViewModel
 import com.example.firstaplication.ui.views.Solicitudes.SolicitudesScreen
@@ -23,20 +28,31 @@ import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionVi
 import dagger.hilt.android.AndroidEntryPoint
 import org.apache.log4j.BasicConfigurator
 import org.apache.log4j.varia.NullAppender
+import java.io.File
 
 private const val TAG = "MainActivity"
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() { //clase main
     private val solicitudViewModel: SolicitudViewModel by viewModels()
     private val detalleSolicitudViewModel: DetalleSolicitudViewModel by viewModels()
     private val detalleCotizacionViewModel: DetalleCotizacionViewModel by viewModels()
+
+    companion object {
+        private var instancia: MainActivity? = null
+        fun obtenerInstancia(): MainActivity? {
+            return instancia
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instancia = this
         Log.d(TAG, "onCreate Called")
         BasicConfigurator.configure(NullAppender()) // para el log4jzzz
         db.init() //inicializo la db
         setContent {
             val navController = rememberNavController() // Crear el controlador de navegación
+            val context = LocalContext.current
             // Configurar la navegación con Navigation Component
             NavHost(
                 navController = navController,
@@ -48,7 +64,7 @@ class MainActivity : ComponentActivity() { //clase main
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        SolicitudesScreen(solicitudViewModel,navController)
+                        SolicitudesScreen(solicitudViewModel,navController,context,detalleCotizacionViewModel)
                     }
                 }
                 composable("VisualizacionCotizarPendiente/{idSolicitud}") { backStackEntry ->
@@ -66,6 +82,13 @@ class MainActivity : ComponentActivity() { //clase main
 
             }
         }
+    }
+
+    fun getDirectory(): File {
+        val mediaDir = externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
+        return if (mediaDir != null && mediaDir.exists()) mediaDir else filesDir
     }
 
     override fun onStart() {
