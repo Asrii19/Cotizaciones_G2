@@ -76,8 +76,10 @@ class MainActivity : ComponentActivity() { //clase main
                     val idSolicitud = backStackEntry.arguments?.getString("idSolicitud")
                     VisualizacionCotisScreen(detalleCotizacionViewModel,navController,idSolicitud)
                 }
-                composable("VisualizaracionSolicitudCotizada"){
-                    VisualizacionSolicitudCotizadaScreen(navController)
+                composable("VisualizaracionSolicitudCotizada/{idSolicitud}"){ backStackEntry ->
+                    val idSolicitud = backStackEntry.arguments?.getString("idSolicitud")
+                    // Ahora puedes utilizar idSolicitud en tu pantalla de VisualizacionCotizarPendiente.
+                    VisualizacionSolicitudCotizadaScreen(detalleSolicitudViewModel,navController,idSolicitud)
                 }
 
             }

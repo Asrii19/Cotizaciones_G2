@@ -130,8 +130,8 @@ fun VisualizacionCotiRegistradaScreen(viewModel: DetalleSolicitudViewModel, navC
                 ){
                     Button(
                         onClick = {
-                            navController.navigate("VisualizaracionSolicitudCotizada")
-                            viewModel.isLoading = true
+                            navController.navigate("VisualizaracionSolicitudCotizada/$idSolicitud")
+                            //viewModel.isLoading = true
                         },
                         modifier = Modifier
                             .weight(0.5f)

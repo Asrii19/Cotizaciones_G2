@@ -14,12 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.firstaplication.ui.views.infoSolicitudes.DetalleSolicitudViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisualizacionSolicitudCotizadaScreen(navController: NavController) {
-
+fun VisualizacionSolicitudCotizadaScreen(viewModel: DetalleSolicitudViewModel, navController: NavController,idSolicitud: String?) {
+    viewModel.isLoading = true
     Scaffold(
         contentColor = Color(0xFF000080),
         containerColor = Color(0xFF000080),
@@ -29,7 +30,7 @@ fun VisualizacionSolicitudCotizadaScreen(navController: NavController) {
                 colors = TopAppBarDefaults.mediumTopAppBarColors(Color(0xFF000080)),
                 title = {
                     Text(
-                        text = "000001",
+                        text = idSolicitud.toString(),
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
@@ -42,68 +43,85 @@ fun VisualizacionSolicitudCotizadaScreen(navController: NavController) {
         },
 
         //CUERPO
+
         content = { innerPadding ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding) // Para centrar horizontalmente
-                    .background(Color.LightGray), // Fondo plomo claro
-            ) {
-                Column(
+
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(innerPadding) // Para centrar horizontalmente
+                        .background(Color.LightGray), // Fondo plomo claro
                 ) {
-                    Text(
-                        text = "COTIZACIÓN REALIZADA CON ÉXITO",
-                        color = Color.Red,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text("Información de la cotización:", modifier = Modifier)
-
-                    Text("Predio: Las Mariposas", modifier = Modifier)
-                    Text("Tipo: Condominio", modifier = Modifier)
-                    Text("Cliente: Quintana Ramirez Fabrizzio", modifier = Modifier)
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Text(
-                        text = "TOTAL COTIZADO:",
-                        color = Color.Red,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                    )
-                    Text("2500.00", color = Color.Red, textAlign = TextAlign.Center)
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Email,
-                            contentDescription = "Email Icon",
-                            tint = Color.Black
-                        )
-                        Text("La cotización fue notificada al cliente")
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(
-                        onClick = { navController.navigate("pantalla1")},
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(16.dp)
                     ) {
-                        Text("ACEPTAR", color = Color.White)
+                        if (!viewModel.isLoading){
+
+                        Text(
+                            text = "COTIZACIÓN REALIZADA CON ÉXITO",
+                            color = Color.Red,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text("Información de la cotización:", modifier = Modifier)
+
+                        Text("Predio: ${viewModel.dataDetalle.nombre_predio}", modifier = Modifier)
+                        Text("Tipo: ${viewModel.dataDetalle.tipo_predio}", modifier = Modifier)
+                        Text("Cliente: ${viewModel.dataDetalle.nombre}", modifier = Modifier)
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = "TOTAL COTIZADO:",
+                            color = Color.Red,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        var total_importe = (viewModel.dataDetalle.cant_administracion * viewModel.dataDetalle.precio_administracion)+(viewModel.dataDetalle.cant_limpieza * viewModel.dataDetalle.precio_limpieza)+(viewModel.dataDetalle.cant_jardineria * viewModel.dataDetalle.precio_jardineria)+(viewModel.dataDetalle.cant_vigilantes * viewModel.dataDetalle.precio_vigilante)
+                        Text("$total_importe", color = Color.Red, textAlign = TextAlign.Center)
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Email,
+                                contentDescription = "Email Icon",
+                                tint = Color.Black
+                            )
+                            Text("La cotización fue notificada al cliente")
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Button(
+                            onClick = { navController.navigate("pantalla1")
+                                        viewModel.isLoading = true
+                                      },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Text("ACEPTAR", color = Color.White)
+                        }
+                    }else{
+                    CircularProgressIndicator(modifier = Modifier.fillMaxSize(), color = Color.Gray)
+                    LaunchedEffect(Unit) {
+                        if (idSolicitud != null) {
+                            viewModel.cargarDataPendiente(idSolicitud)
+                        }
                     }
                 }
-            }
+
+                    }
+                }
+
         },
     )
 }
