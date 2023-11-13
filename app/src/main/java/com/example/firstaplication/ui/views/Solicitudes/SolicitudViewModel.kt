@@ -26,7 +26,7 @@ class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotiza
     val dataAprobada = ArrayList<sData>()
     suspend fun generateSolicitudesAprobadas(): ArrayList<SolicitudCotizacionEntity> {
         return withContext(Dispatchers.IO) {
-            scDAO.readAprobadas()
+            scDAO.readAprobadas() //de solicitud_cotizacionDAO
         }
     }
     suspend fun generateSolicitudesPendientes(): ArrayList<SolicitudEntity> {

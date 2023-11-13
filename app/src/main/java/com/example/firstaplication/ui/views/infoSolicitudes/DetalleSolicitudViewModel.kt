@@ -6,15 +6,20 @@ import androidx.compose.runtime.setValue
 import com.example.firstaplication.data.dao.solicitud_cotizacionDAO
 import androidx.lifecycle.ViewModel
 import com.example.firstaplication.data.dao.solicitudDAO
+import com.example.firstaplication.data.entity.EstadoEntity
+import com.example.firstaplication.data.entity.PersonalEntity
 import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
 import com.example.firstaplication.data.entity.SolicitudEntity
 import com.example.firstaplication.data.model.sDataDetalle
+import com.example.firstaplication.data.table.SolicitudCotizacionTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +29,32 @@ class DetalleSolicitudViewModel @Inject constructor(private val sDAO: solicitudD
     suspend fun generateSolicitudesPendientes(id: String): ArrayList<SolicitudEntity> {
         return withContext(Dispatchers.IO) {
             sDAO.readPendienteDetalle(id)
+        }
+    }
+    fun insertarSolicitudCotizacion(idSolicitud_CotizacionCOTI:Int?,idSolicitudCOTI:Int,id_personalCOTI:Int,fechaCotizacionCOTI:String,importeCOTI:Double,idEstadoCOTI:Int){
+        val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val fechaLocal = LocalDate.parse(fechaCotizacionCOTI, formatoFecha)
+        transaction {
+            // Verifica si el id ya existe
+            //val existeId = SolicitudCotizacionTable.select { SolicitudCotizacionTable.id eq idSolicitud_CotizacionCOTI }.empty().not()
+
+            //if (existeId || idSolicitud_CotizacionCOTI == null) {
+                // Inserta sin considerar el id
+                SolicitudCotizacionEntity.new {
+                    this.solicitud=SolicitudEntity[idSolicitudCOTI]
+                    this.personal = PersonalEntity[id_personalCOTI]
+                    this.fecha_cotizacion = fechaLocal
+                    this.importe=importeCOTI
+                    this.estado=EstadoEntity[idEstadoCOTI]
+
+                }
+            /*} else {
+                // Inserta considerando el id
+                SolicitudCotizacionEntity.new(idSolicitud) {
+                    this.idPersonal = idPersonal
+                    this.importe = importe
+                }
+            }*/
         }
     }
     fun obtenerDataPendiente(entity: SolicitudEntity): sDataDetalle {
