@@ -17,9 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import com.example.firstaplication.MainActivity
 import com.example.firstaplication.data.model.sData
-import com.example.firstaplication.data.model.sDataDetalle
 import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionViewModel
-import java.io.File
 import com.example.firstaplication.ui.views.infoSolicitudes.generatePDF as generatePDF
 
 private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
@@ -90,7 +88,7 @@ fun CotizacionCardAprobada(navController: NavController, data: sData, context: C
                         .widthIn(max = 100.dp)
                 ) {
                     IconButton(
-                        onClick = { navController.navigate("VisualizacionCotizarAprobada/${data.id_solicitud}") }
+                        onClick = { navController.navigate("VisualizacionCotizarAprobada/${data.id}") }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Info,
@@ -108,7 +106,7 @@ fun CotizacionCardAprobada(navController: NavController, data: sData, context: C
                     IconButton(
                         onClick = {
                             if (mainActivity != null) {
-                                generatePDF(context, mainActivity.getDirectory(), data.id_solicitud, viewModelCotizado)
+                                generatePDF(context, mainActivity.getDirectory(), data.id, viewModelCotizado)
                             }
                         }
                     ) {

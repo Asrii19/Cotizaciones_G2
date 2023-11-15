@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import com.example.firstaplication.data.model.spData
 
 @Composable
-fun CotizacionCardPendiente(navController: NavController,data: spData) {
+fun CotizacionCardPendiente(navController: NavController,data: spData, viewModel: SolicitudViewModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,6 +44,7 @@ fun CotizacionCardPendiente(navController: NavController,data: spData) {
                 Button(
                     onClick = {
                         navController.navigate("VisualizacionCotizarPendiente/${data.id_solicitud}")
+                        viewModel.isLoading = true
                     },
                     modifier = Modifier
                         .fillMaxWidth()

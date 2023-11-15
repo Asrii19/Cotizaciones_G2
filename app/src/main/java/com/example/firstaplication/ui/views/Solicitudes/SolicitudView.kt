@@ -144,7 +144,7 @@ fun SolicitudesScreen(viewModel: SolicitudViewModel,navController: NavController
                     ) {
                         if (selectedTabIndex == 0) {
                             items(viewModel.dataPendiente) { data ->
-                                CotizacionCardPendiente(navController = navController, data = data) //crea una card por cada usuario "data" en el arraylist dataPendiente
+                                CotizacionCardPendiente(navController = navController, data = data, viewModel=viewModel) //crea una card por cada usuario "data" en el arraylist dataPendiente
                             }
                         } else {
                             items(viewModel.dataAprobada) { data ->

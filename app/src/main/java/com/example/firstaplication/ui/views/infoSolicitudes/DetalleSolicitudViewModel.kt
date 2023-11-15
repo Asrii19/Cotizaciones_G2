@@ -6,55 +6,40 @@ import androidx.compose.runtime.setValue
 import com.example.firstaplication.data.dao.solicitud_cotizacionDAO
 import androidx.lifecycle.ViewModel
 import com.example.firstaplication.data.dao.solicitudDAO
-import com.example.firstaplication.data.entity.EstadoEntity
-import com.example.firstaplication.data.entity.PersonalEntity
-import com.example.firstaplication.data.entity.SolicitudCotizacionEntity
 import com.example.firstaplication.data.entity.SolicitudEntity
+import com.example.firstaplication.data.model.Solicitud
+import com.example.firstaplication.data.model.SolicitudCotizacion
 import com.example.firstaplication.data.model.sDataDetalle
+import com.example.firstaplication.data.table.EstadoTable
+import com.example.firstaplication.data.table.PersonalTable
 import com.example.firstaplication.data.table.SolicitudCotizacionTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
-class DetalleSolicitudViewModel @Inject constructor(private val sDAO: solicitudDAO): ViewModel(){
+class DetalleSolicitudViewModel @Inject constructor(private val sDAO: solicitudDAO,
+                                                    private val scDAO: solicitud_cotizacionDAO): ViewModel(){
     var isLoading by mutableStateOf(true)
     var dataDetalle = sDataDetalle()
+    var dataCotizacion = SolicitudCotizacion()
+    fun add(importe:Double){
+        dataCotizacion.importe = importe
+        dataCotizacion.id_estado= EntityID(1, EstadoTable)
+        val id = scDAO.generateMaxId()+1
+        scDAO.create(dataCotizacion,id);
+    }
     suspend fun generateSolicitudesPendientes(id: String): ArrayList<SolicitudEntity> {
         return withContext(Dispatchers.IO) {
             sDAO.readPendienteDetalle(id)
-        }
-    }
-    fun insertarSolicitudCotizacion(idSolicitud_CotizacionCOTI:Int?,idSolicitudCOTI:Int,id_personalCOTI:Int,fechaCotizacionCOTI:String,importeCOTI:Double,idEstadoCOTI:Int){
-        val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val fechaLocal = LocalDate.parse(fechaCotizacionCOTI, formatoFecha)
-        transaction {
-            // Verifica si el id ya existe
-            //val existeId = SolicitudCotizacionTable.select { SolicitudCotizacionTable.id eq idSolicitud_CotizacionCOTI }.empty().not()
-
-            //if (existeId || idSolicitud_CotizacionCOTI == null) {
-                // Inserta sin considerar el id
-                SolicitudCotizacionEntity.new {
-                    this.solicitud=SolicitudEntity[idSolicitudCOTI]
-                    this.personal = PersonalEntity[id_personalCOTI]
-                    this.fecha_cotizacion = fechaLocal
-                    this.importe=importeCOTI
-                    this.estado=EstadoEntity[idEstadoCOTI]
-
-                }
-            /*} else {
-                // Inserta considerando el id
-                SolicitudCotizacionEntity.new(idSolicitud) {
-                    this.idPersonal = idPersonal
-                    this.importe = importe
-                }
-            }*/
         }
     }
     fun obtenerDataPendiente(entity: SolicitudEntity): sDataDetalle {
@@ -93,8 +78,32 @@ class DetalleSolicitudViewModel @Inject constructor(private val sDAO: solicitudD
 
     suspend fun cargarDataPendiente(id: String){
         val jobPendiente = CoroutineScope(Dispatchers.IO).launch { guardarDataPendiente(id) }
-
+        val jobPendiente2 = CoroutineScope(Dispatchers.IO).launch { cargarDataCotizacion(id) }
         jobPendiente.join()
+        jobPendiente2.join()
         isLoading = false
+    }
+
+    fun obtenerDataCotizacion(entity: SolicitudEntity):SolicitudCotizacion{
+        val cotizacion = SolicitudCotizacion()
+        cotizacion.fecha_cotizacion = LocalDate.now()
+        cotizacion.id_solicitud = entity.id
+        cotizacion.id_personal = EntityID(4,PersonalTable)
+        return cotizacion
+    }
+    suspend fun guardarDataCotizacion(id: String){
+        val solicitudesPendientes = generateSolicitudesPendientes(id)
+        var result = withContext(Dispatchers.IO) {
+            transaction {
+                var Data = obtenerDataCotizacion(solicitudesPendientes.get(0))
+                Data
+            }
+        }
+        dataCotizacion = result
+    }
+    suspend fun cargarDataCotizacion(id: String){
+        val jobAprobada = CoroutineScope(Dispatchers.IO).launch { guardarDataCotizacion(id) }
+
+        jobAprobada.join()
     }
 }

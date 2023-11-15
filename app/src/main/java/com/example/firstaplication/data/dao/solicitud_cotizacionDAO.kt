@@ -7,44 +7,47 @@ import com.example.firstaplication.data.table.SolicitudCotizacionTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.jetbrains.exposed.dao.DaoEntityID
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.max
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import javax.inject.Inject
 
-class solicitud_cotizacionDAO @Inject constructor() : CRUD<ArrayList<SolicitudCotizacion>> {
-    override fun create(item: ArrayList<SolicitudCotizacion>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun read(): ArrayList<SolicitudCotizacion> { //primero
-        return runBlocking {
+class solicitud_cotizacionDAO @Inject constructor() {
+    fun create(solicitudCotizacion: SolicitudCotizacion,idSolicitudCotizacion: Long) {
+        runBlocking {
             withContext(Dispatchers.IO) {
-                val result = ArrayList<SolicitudCotizacion>()
-
                 transaction {
-                    val query = SolicitudCotizacionTable.selectAll()
-                    query.forEach {
-                        val id_solicitud = it[SolicitudCotizacionTable.id_solicitud]
-                        val id_personal = it[SolicitudCotizacionTable.id_personal]
-                        val fecha_cotizacion = it[SolicitudCotizacionTable.fecha_cotizacion]
-                        val importe = it[SolicitudCotizacionTable.importe]
-                        val id_solicitud_cotizacion = it[SolicitudCotizacionTable.id]
-                        val id_estado = it[SolicitudCotizacionTable.id_estado]
-                        result.add(SolicitudCotizacion(
-                            id_solicitud,
-                            id_personal,
-                            fecha_cotizacion,
-                            importe,
-                            id_solicitud_cotizacion,
-                            id_estado
-                        ))
-                    }
+                    SolicitudCotizacionTable.insert {
+                        it[id_personal] = solicitudCotizacion.id_personal
+                        it[fecha_cotizacion] = solicitudCotizacion.fecha_cotizacion
+                        it[importe] = solicitudCotizacion.importe
+                        it[id_solicitud] = solicitudCotizacion.id_solicitud
+                        it[id_estado] = solicitudCotizacion.id_estado
+                        it[id] = idSolicitudCotizacion
+                    }.resultedValues!!.map { it[SolicitudCotizacionTable.id] }.first()
                 }
-                result
             }
         }
     }
+    fun generateMaxId():Long {
+        return runBlocking {
+            withContext(Dispatchers.IO) {
+                transaction {
+                    val maxIdResult = SolicitudCotizacionTable
+                        .slice(SolicitudCotizacionTable.id.max())
+                        .selectAll()
+                        .singleOrNull()
 
+                    val maxId = maxIdResult?.get(SolicitudCotizacionTable.id.max()) as DaoEntityID?
+                    maxId?.value ?: 1
+                }
+            }
+        }
+    }
     fun readAprobadaDetalle(id: String): ArrayList<SolicitudCotizacionEntity>{
         val id2 = id.toLong()
 
@@ -75,12 +78,4 @@ class solicitud_cotizacionDAO @Inject constructor() : CRUD<ArrayList<SolicitudCo
             }
         }
     }
-    override fun delete(id: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun update(item: ArrayList<SolicitudCotizacion>) {
-        TODO("Not yet implemented")
-    }
-
 }

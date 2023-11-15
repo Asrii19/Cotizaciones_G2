@@ -129,67 +129,9 @@ fun VisualizacionSolicitudCotizadaScreen(context: Context,viewModel: DetalleSoli
                         Button(
                             onClick = {
                                 navController.navigate("pantalla1")
-
-
-                                /*
-                                //Acá debo de hacer el insert
-                                val fechaActual = LocalDate.now()
-                                // Define el formato de la cadena de fecha si es necesario
-                                val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                                // Convierte la fecha actual a String
-                                val fechaActualString = fechaActual.format(formatoFecha)
-
-                                val idSoli: Int = idSolicitud?.toInt() ?: 0
-
-
-                                val database = "sigcon"
-                                val host = "137.184.120.127"
-                                val url = "jdbc:postgresql://$host/$database"
-                                val usuario = "modulo4"
-                                val contraseña = "modulo4"
-                                try{
-                                // Crear la conexión
-                                    DriverManager.getConnection(url, usuario, contraseña).use { conexion ->
-                                        if (conexion.isValid(5)) { // El argumento es el tiempo máximo de espera en segundos
-                                            println("Conexión exitosa.")
-                                            // Consulta de inserción
-                                            val consultaInsercion =
-                                                "insert into solicitud_cotizacion (id_solicitud_cotizacion,id_solicitud,id_personal,fecha_cotizacion,importe,id_estado) values (?,?,?,?,?,?)"
-
-                                            // Crear una declaración preparada
-                                            conexion.prepareStatement(consultaInsercion)
-                                                .use { declaracionPreparada ->
-                                                    // Establecer los valores de los parámetros
-                                                    declaracionPreparada.setInt(1, 12545)
-                                                    declaracionPreparada.setInt(2, idSoli)
-                                                    declaracionPreparada.setInt(3, 1)
-                                                    declaracionPreparada.setDate(
-                                                        4,
-                                                        Date.valueOf(LocalDate.now().toString())
-                                                    )
-                                                    declaracionPreparada.setDouble(5, total_importe)
-                                                    declaracionPreparada.setInt(6, 1)
-                                                    // Ejecutar la consulta de inserción
-                                                    declaracionPreparada.executeUpdate()
-                                                }
-                                            println("Inserción exitosa.")
-                                        } else {
-                                            println("La conexión no es válida.")
-                                        }
-                                        }
-                                }catch (ex: SQLException){
-                                    println("Error en la conexión a la base de datos: ${ex.message}")
-                                }
-                                */
-
-                                //OTRO INTENTO FALLIDO :,V
-
-                                //.insertarSolicitudCotizacion(1254,idSoli,1,fechaActualString,total_importe,1)
-
-                                //ESTE TAMBN NO SIRVE falta ARREGLAR AAA
+                                viewModel.add(total_importe)
                                 sendEmail(context)
-
-                                        viewModel.isLoading = true
+                                viewModel.isLoading = true
                                       },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -202,18 +144,18 @@ fun VisualizacionSolicitudCotizadaScreen(context: Context,viewModel: DetalleSoli
 
                 }
         }else{
-        CircularProgressIndicator(modifier = Modifier
-            .fillMaxSize()
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center)
-            .fillMaxHeight()
-            .wrapContentSize(Alignment.Center), color = Color.Gray)
-        LaunchedEffect(Unit) {
-            if (idSolicitud != null) {
-                viewModel.cargarDataPendiente(idSolicitud)
+            CircularProgressIndicator(modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center)
+                .fillMaxHeight()
+                .wrapContentSize(Alignment.Center), color = Color.Gray)
+            LaunchedEffect(Unit) {
+                if (idSolicitud != null) {
+                    viewModel.cargarDataPendiente(idSolicitud)
+                }
             }
         }
-    }
 
 
         },

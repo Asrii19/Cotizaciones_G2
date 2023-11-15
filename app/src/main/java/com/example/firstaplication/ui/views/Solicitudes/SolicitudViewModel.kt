@@ -36,10 +36,11 @@ class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotiza
     }
     fun obtenerDataAprobada(entity: SolicitudCotizacionEntity): sData {
         val sData = sData()
-        sData.id_solicitud = entity.id.toString().padStart(6, '0')
+        sData.id = entity.id.toString().padStart(6, '0')
         sData.name = entity.solicitud.solicitante.persona.apellido_paterno + " " + entity.solicitud.solicitante.persona.apellido_materno + " " + entity.solicitud.solicitante.persona.nombres
         sData.namep = entity.solicitud.predio.descripcion
         sData.fechaAprobacion = entity.solicitud.fecha_solicitud.toString()
+        sData.id_solicitud = entity.solicitud.id.toString().padStart(6, '0')
         return sData
     }
     fun obtenerDataPendiente(entity: SolicitudEntity): spData {
@@ -81,6 +82,19 @@ class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotiza
         dataPendiente.addAll(result)
     }
 
+    fun filtrarSolicitudesPendientes(){
+        val iterator = dataPendiente.iterator()
+        while (iterator.hasNext()) {
+            val pendienteItem = iterator.next()
+
+            for (aprobadaItem in dataAprobada) {
+                if (pendienteItem.id_solicitud == aprobadaItem.id_solicitud) {
+                    iterator.remove()
+                    break
+                }
+            }
+        }
+    }
     suspend fun cargarData(){
         val jobPendiente = CoroutineScope(Dispatchers.IO).launch { guardarDataPendiente() }
         val jobAprobada = CoroutineScope(Dispatchers.IO).launch { guardarDataAprobada() }
@@ -88,6 +102,9 @@ class SolicitudViewModel @Inject constructor(private val scDAO: solicitud_cotiza
         // Esperar a que ambas funciones suspendidas finalicen
         jobPendiente.join()
         jobAprobada.join()
+
+        filtrarSolicitudesPendientes()
+
         isLoading = false
     }
 }
