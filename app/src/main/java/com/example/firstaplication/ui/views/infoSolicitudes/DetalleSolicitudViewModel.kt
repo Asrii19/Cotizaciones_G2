@@ -10,9 +10,11 @@ import com.example.firstaplication.data.entity.SolicitudEntity
 import com.example.firstaplication.data.model.Solicitud
 import com.example.firstaplication.data.model.SolicitudCotizacion
 import com.example.firstaplication.data.model.sDataDetalle
+import com.example.firstaplication.data.table.EstadoSolicitudTable
 import com.example.firstaplication.data.table.EstadoTable
 import com.example.firstaplication.data.table.PersonalTable
 import com.example.firstaplication.data.table.SolicitudCotizacionTable
+import com.example.firstaplication.data.table.SolicitudTable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,12 +33,24 @@ class DetalleSolicitudViewModel @Inject constructor(private val sDAO: solicitudD
     var isLoading by mutableStateOf(true)
     var dataDetalle = sDataDetalle()
     var dataCotizacion = SolicitudCotizacion()
+    //var dataSoli_estado_Solo = addSolicitud_estado_Solicitud()
     fun add(importe:Double){
         dataCotizacion.importe = importe
         dataCotizacion.id_estado= EntityID(1, EstadoTable)
         val id = scDAO.generateMaxId()+1
         scDAO.create(dataCotizacion,id);
     }
+
+
+    fun addSolicitud_estado_Solicitud(){
+        var id = scDAO.generateMaxIdParaSOLI_ESTADO_SOLI()+1
+        var fecha= dataCotizacion.fecha_cotizacion
+        var id_solicitud = dataCotizacion.id_solicitud
+        var id_estado_solicitud = EntityID(2, EstadoSolicitudTable)//cotizado
+        var ind_ultimo_ = "1"
+        scDAO.create_SOLI_ESTADO_SOLI(id,fecha,id_solicitud,id_estado_solicitud,ind_ultimo_)
+    }
+
     suspend fun generateSolicitudesPendientes(id: String): ArrayList<SolicitudEntity> {
         return withContext(Dispatchers.IO) {
             sDAO.readPendienteDetalle(id)

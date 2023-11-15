@@ -129,8 +129,10 @@ fun VisualizacionSolicitudCotizadaScreen(context: Context,viewModel: DetalleSoli
                         Button(
                             onClick = {
                                 navController.navigate("pantalla1")
-                                viewModel.add(total_importe)
-                                sendEmail(context)
+
+                                viewModel.add(total_importe) //nos deriva a función "create" el cual inserta datos a BD
+
+                                viewModel.addSolicitud_estado_Solicitud() //Añadimos dato a tabla Solicitud_estado_solicitud
                                 viewModel.isLoading = true
                                       },
                             modifier = Modifier
