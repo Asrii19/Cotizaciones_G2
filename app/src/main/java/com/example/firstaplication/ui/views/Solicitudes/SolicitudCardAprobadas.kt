@@ -7,15 +7,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import com.example.firstaplication.MainActivity
+import com.example.firstaplication.R
 import com.example.firstaplication.data.model.sData
 import com.example.firstaplication.ui.views.InfoCotizaciones.DetalleCotizacionViewModel
 import com.example.firstaplication.ui.views.infoSolicitudes.generatePDF as generatePDF
@@ -91,7 +94,7 @@ fun CotizacionCardAprobada(navController: NavController, data: sData, context: C
                         onClick = { navController.navigate("VisualizacionCotizarAprobada/${data.id}") }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Info,
+                            imageVector = Icons.Default.Visibility,
                             contentDescription = "Ver Cotización",
                             tint = Color.White
                         )
@@ -111,7 +114,7 @@ fun CotizacionCardAprobada(navController: NavController, data: sData, context: C
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Send,
+                            painter = painterResource(id = R.drawable.descargar),
                             contentDescription = "Descargar Cotización",
                             tint = Color.White
                         )
